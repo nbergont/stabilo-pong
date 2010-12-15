@@ -38,7 +38,11 @@
 			<Add library="highgui" />
 			<Add library="cxcore" />
 		</Linker>
+		<Unit filename="ball.cpp" />
+		<Unit filename="ball.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.hpp" />
 		<Extensions>
 			<code_completion>
 				<search_path add="/usr/include/opencv" />
