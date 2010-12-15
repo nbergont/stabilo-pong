@@ -36,17 +36,15 @@ void player::tracking(IplImage *hsv, IplImage *frame)
 	    mask = cvCreateImage(cvGetSize(hsv), hsv->depth, 1);
 
 
-	// We create the mask
+	// We create the color mask with tolerance
 	cvInRangeS(hsv, cvScalar(_h - tolerance -1, _s - tolerance, vmin), cvScalar(_h + tolerance -1, _s + tolerance, vmax), mask);
 
-	// Create kernels for the morphological operation
+	// Create kernels
 	IplConvKernel *kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
 
-	// Morphological opening (inverse because we have white pixels on black background)
+	// Noise remove ...
 	cvDilate(mask, mask, kernel, 1);
 	cvErode(mask, mask, kernel, 2);
-
-	// We release the memory of kernels
 	cvReleaseStructuringElement(&kernel);
 
 	// We go through the mask to look for the tracked object and get its gravity center
@@ -88,14 +86,14 @@ void player::checkCollide(ball &B)
 	    B.bounce();
 	else
 	{
-	    /*
-	    //La balle est dans les buts
-	    if(leftPlayer & bounding_box(0, 0, x, _YGoalPoint2, B.getX(), B.getY(), B.getR(), B.getR())
-		score--;
-	    else(!leftPlayer & bounding_box(_XGoalPoint1, _YGoalPoint1, 0, _YGoalPoint2, B.getX(), B.getY(), B.getR(), B.getR())
-		score--;
-	    */
+	    //la balle est dans les "buts"
+	    if(leftPlayer)
+            if(B.isLeftBallLost() && score)
+                score--;
 
+        if(!leftPlayer)
+            if(B.isRightBallLost() && score)
+                score--;
 	}
 }
 
@@ -126,23 +124,13 @@ void player::draw(IplImage *img)
 	//Print score
 	char tscore[4];
 	sprintf(tscore,"%d", score);
-	cvPutText(img, tscore, cvPoint(x, 20), &font, CV_RGB(255, 255, 255));
+	cvPutText(img, tscore, cvPoint(x, 20), &font, CV_RGB(255, 0, 0));
 }
 
 void player::update(int yp)
 {
-	//Smooth mvt
+	//Smooth mvt of player bar
 	y = y + ((yp - y)/(1.6));
-
-	/*
-	int objectNextStepY;
-	// Move step by step the object position to the desired position
-	if (abs(y - yp) > STEP_MIN) {
-	    objectNextStepY = max(STEP_MIN, min(STEP_MAX, abs(y - yp) / 2));
-	    y += (-1) * sign(y - yp) * objectNextStepY;
-	}
-	*/
-
 }
 
 bool player::bounding_box(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h)

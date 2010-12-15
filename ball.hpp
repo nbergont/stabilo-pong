@@ -11,6 +11,9 @@ class ball
     void bounce(bool vertical = true);
     void draw(IplImage *img);
 
+    bool isLeftBallLost();
+    bool isRightBallLost();
+
     int getY() const ;
     int getX() const ;
     int getR() const ;
@@ -19,6 +22,8 @@ class ball
     int x,y,r;
     double angle;
     int speed;
+
+    bool LeftBallLost, RightBallLost;
 
     int width, height;
 

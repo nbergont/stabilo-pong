@@ -8,13 +8,15 @@ IplImage *frame;
 IplImage* sframe;
 player p1,p2;
 
-void getObjectColor(int event, int x, int y, int flags, void *param = NULL) {
+//Color calibration
+void getObjectColor(int event, int x, int y, int flags, void *param = NULL)
+{
 
-	// Vars
 	CvScalar pixel;
 	IplImage *hsv;
 
-	if(event == CV_EVENT_LBUTTONUP)	{
+	if(event == CV_EVENT_LBUTTONUP)
+	{
 
 		// Get the hsv image
 		hsv = cvCloneImage(sframe);
@@ -31,7 +33,7 @@ void getObjectColor(int event, int x, int y, int flags, void *param = NULL) {
 		p1.setTracking(h,s,v);
 
 		// Release the memory of the hsv image
-        	cvReleaseImage(&hsv);
+        cvReleaseImage(&hsv);
 
 	}
 	else if(event == CV_EVENT_RBUTTONUP)
@@ -51,7 +53,7 @@ void getObjectColor(int event, int x, int y, int flags, void *param = NULL) {
 		p2.setTracking(h,s,v);
 
 		// Release the memory of the hsv image
-        	cvReleaseImage(&hsv);
+        cvReleaseImage(&hsv);
 	}
 
 }

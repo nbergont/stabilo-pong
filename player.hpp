@@ -5,9 +5,9 @@
 
 #define RATIO 4
 
-static int vmin = 55;
-static int vmax = 250;
-static int tolerance = 32;
+static int vmin = 55; //Min brightness
+static int vmax = 250; //Max brightness
+static int tolerance = 32; //Color tolerance
 
 class ball;
 
@@ -24,8 +24,7 @@ class player
     private:
 
     void update(int yp);
-
-    bool bounding_box(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h);
+    static bool bounding_box(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h);
 
     int score;
     int y,x,h,w;
